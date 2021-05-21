@@ -17,6 +17,7 @@ namespace FeatureManagement.Web.Infrastructure
             _logger = loggerFactory?.CreateLogger<LogURLMiddleware>() ??
             throw new ArgumentNullException(nameof(loggerFactory));
         }
+
         public async Task InvokeAsync(HttpContext context)
         {
             string message = $"Request URL: {Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request)}";

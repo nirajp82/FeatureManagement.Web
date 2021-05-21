@@ -14,9 +14,9 @@ namespace FeatureManagement.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IFeatureManager _featureManager;
+        private readonly IFeatureManagerSnapshot _featureManager;
 
-        public HomeController(ILogger<HomeController> logger, IFeatureManager featureManager)
+        public HomeController(ILogger<HomeController> logger, IFeatureManagerSnapshot featureManager)
         {
             _logger = logger;
             _featureManager = featureManager;
