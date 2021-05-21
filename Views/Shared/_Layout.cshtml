@@ -24,6 +24,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <feature name="@nameof(FeatureFlag.Print), @nameof(FeatureFlag.PrintPreview)" requirement="Any">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Print">Print</a>
+                            </li>
+                        </feature>
+                        <feature name=@nameof(FeatureFlag.Print) negate="true">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Print">Print (Not available at this time)</a>
+                            </li>
+                        </feature>
                     </ul>
                 </div>
             </div>

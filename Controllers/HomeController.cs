@@ -1,6 +1,8 @@
 ﻿using FeatureManagement.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,18 +14,27 @@ namespace FeatureManagement.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IFeatureManager _featureManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IFeatureManager featureManager)
         {
             _logger = logger;
+            _featureManager = featureManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.IsPrintEnabled = await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print)) ? "On" : "Off";
             return View();
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [FeatureGate(RequirementType.Any, FeatureFlag.Print, FeatureFlag.PrintPreview)]
+        public IActionResult Print()
         {
             return View();
         }

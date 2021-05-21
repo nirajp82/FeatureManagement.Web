@@ -1,0 +1,28 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace FeatureManagement.Web.Infrastructure
+{
+    public class LogURLMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<LogURLMiddleware> _logger;
+        public LogURLMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+        {
+            _next = next;
+            _logger = loggerFactory?.CreateLogger<LogURLMiddleware>() ??
+            throw new ArgumentNullException(nameof(loggerFactory));
+        }
+        public async Task InvokeAsync(HttpContext context)
+        {
+            string message = $"Request URL: {Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request)}";
+            context.Response.Headers.Add("RequestdURL", message);
+            _logger.LogInformation(message);
+            await this._next(context);
+        }
+    }
+}

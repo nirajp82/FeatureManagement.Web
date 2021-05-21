@@ -1,3 +1,5 @@
+using FeatureManagement.Web.Infrastructure;
+using FeatureManagement.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +25,12 @@ namespace FeatureManagement.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options => 
+            {
+                options.Filters.AddForFeature<TimeElapsedFilter>(nameof(FeatureFlag.TimeElapsed));
+            });
+            services.AddFeatureManagement().
+                UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +44,7 @@ namespace FeatureManagement.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));
             app.UseStaticFiles();
 
             app.UseRouting();
