@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace FeatureManagement.Web.Models
 {
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    public sealed class PreserveFeatureAcrossRequestsAttribute : Attribute
+    {
+    }
+
     public enum FeatureFlag
     {
+        [PreserveFeatureAcrossRequests]
         Print,
         PrintPreview,
         TimeElapsed,

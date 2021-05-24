@@ -25,6 +25,18 @@ namespace FeatureManagement.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+
+            services.AddDistributedMemoryCache(); // For demo purposes, not distributed across multiple web servers
+
+            services.AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            services.AddTransient<ISessionManager, HttpContextFeatureSessionManager>();
+
             services.AddControllersWithViews(options => 
             {
                 options.Filters.AddForFeature<TimeElapsedFilter>(nameof(FeatureFlag.TimeElapsed));
@@ -50,6 +62,8 @@ namespace FeatureManagement.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
 ﻿using FeatureManagement.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
@@ -15,16 +16,25 @@ namespace FeatureManagement.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IFeatureManagerSnapshot _featureManager;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public HomeController(ILogger<HomeController> logger, IFeatureManagerSnapshot featureManager)
+        public HomeController(ILogger<HomeController> logger, IFeatureManagerSnapshot featureManager,
+                              IHttpContextAccessor contextAccessor)
         {
             _logger = logger;
             _featureManager = featureManager;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<IActionResult> Index()
         {
+            for (int i = 0; i < 10; i++)
+            {
+                ViewBag.PrintMessage += (await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print))).ToString() + ", ";
+                await Task.Delay(1);
+            }
             ViewBag.IsPrintEnabled = await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print)) ? "On" : "Off";
+            ViewBag.SessionId = _contextAccessor.HttpContext.Session.Id;
             return View();
         }
 
