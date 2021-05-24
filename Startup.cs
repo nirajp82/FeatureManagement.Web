@@ -37,12 +37,12 @@ namespace FeatureManagement.Web
 
             services.AddTransient<ISessionManager, HttpContextFeatureSessionManager>();
 
-            services.AddControllersWithViews(options => 
+            services.AddControllersWithViews(options =>
             {
                 options.Filters.AddForFeature<TimeElapsedFilter>(nameof(FeatureFlag.TimeElapsed));
             });
-            services.AddFeatureManagement().
-                UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler());
+            services.AddFeatureManagement()
+                 .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,14 +56,12 @@ namespace FeatureManagement.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            app.UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));
+            //app.UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
-            app.UseSession();
+            app.UseSession()
+                .UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));
 
             app.UseEndpoints(endpoints =>
             {

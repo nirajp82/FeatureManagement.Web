@@ -14,16 +14,15 @@ namespace FeatureManagement.Web.Infrastructure
         public LogURLMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
         {
             _next = next;
-            _logger = loggerFactory?.CreateLogger<LogURLMiddleware>() ??
-            throw new ArgumentNullException(nameof(loggerFactory));
+            _logger = loggerFactory?.CreateLogger<LogURLMiddleware>();
         }
 
         public async Task InvokeAsync(HttpContext context)
-        {
+        {            
+            await this._next(context);
             string message = $"Request URL: {Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request)}";
             context.Response.Headers.Add("RequestdURL", message);
             _logger.LogInformation(message);
-            await this._next(context);
         }
     }
 }
