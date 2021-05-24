@@ -28,11 +28,11 @@ namespace FeatureManagement.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                ViewBag.PrintMessage += (await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print))).ToString() + ", ";
-                await Task.Delay(1);
-            }
+            //for (int i = 1; i < 10; i++)
+            //{
+            //    ViewBag.PrintMessage += (await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print))).ToString() + ", ";
+            //    await Task.Delay(1);
+            //}
             ViewBag.IsPrintEnabled = await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print)) ? "On" : "Off";
             ViewBag.SessionId = _contextAccessor.HttpContext.Session.Id;
             return View();

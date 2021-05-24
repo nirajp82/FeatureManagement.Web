@@ -13,7 +13,7 @@ namespace FeatureManagement.Web.Infrastructure
                                                 ActionExecutionDelegate next)
         {
             Stopwatch timer = Stopwatch.StartNew();
-            await Task.Delay(250);
+            await Task.Delay(1);
             await next();
             timer.Stop();
             string message = " Elapsed time: " + $"{timer.Elapsed.TotalMilliseconds} ms";

@@ -1,5 +1,5 @@
 IFeatureManager:  Used to evaluate whether a feature is enabled or disabled.
-IFeatureManagerSnapshot: Cache the value for throught single request
+IFeatureManagerSnapshot: Cache the value for throught single request (Prevent incosist feature flag value during single request)
 services.AddFeatureManagement():  Adds required feature management services.
 IDisabledFeaturesHandler: A handler that is invoked when an MVC action requires a feature and the feature is not enabled.
 UseMiddlewareForFeature:  Conditionally creates a branch in the request pipeline that is rejoined to the  main pipeline.
@@ -9,3 +9,5 @@ feature:
 	negate
 	name
 ISessionManager: The ISessionManager interface allows to store the state of feature flags between requests.
+Feature Filters:
+
