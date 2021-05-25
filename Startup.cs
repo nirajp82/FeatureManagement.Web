@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,9 @@ namespace FeatureManagement.Web
                 options.Filters.AddForFeature<TimeElapsedFilter>(nameof(FeatureFlag.TimeElapsed));
             });
             services.AddFeatureManagement()
-                 .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler());
+                 .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler())
+                 .AddFeatureFilter<TimeWindowFilter>()
+                 .AddFeatureFilter<PercentageFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

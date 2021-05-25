@@ -24,6 +24,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <feature name="@nameof(FeatureFlag.Admin)">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Admin">Admin</a>
+                            </li>
+                        </feature>
                         <feature name="@nameof(FeatureFlag.Print), @nameof(FeatureFlag.PrintPreview)" requirement="Any">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Print">Print</a>
@@ -40,7 +45,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3">           
             @RenderBody()
         </main>
     </div>

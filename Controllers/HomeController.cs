@@ -34,6 +34,7 @@ namespace FeatureManagement.Web.Controllers
             //    await Task.Delay(1);
             //}
             ViewBag.IsPrintEnabled = await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Print)) ? "On" : "Off";
+            ViewBag.IsAdmin = await _featureManager.IsEnabledAsync(nameof(FeatureFlag.Admin)) ? "Yes" : "No";
             ViewBag.SessionId = _contextAccessor.HttpContext.Session.Id;
             return View();
         }
@@ -45,6 +46,12 @@ namespace FeatureManagement.Web.Controllers
 
         [FeatureGate(RequirementType.Any, FeatureFlag.Print, FeatureFlag.PrintPreview)]
         public IActionResult Print()
+        {
+            return View();
+        }
+
+        [FeatureGate( FeatureFlag.Admin)]
+        public IActionResult Admin()
         {
             return View();
         }

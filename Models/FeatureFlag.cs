@@ -13,23 +13,11 @@ namespace FeatureManagement.Web.Models
 
     public enum FeatureFlag
     {
-        [PreserveFeatureAcrossRequests]
+        Admin,
         Print,
         PrintPreview,
+        [PreserveFeatureAcrossRequests]
         TimeElapsed,
         LogUrl
-    }
-
-    public class A : ISessionManager
-    {
-        public Task<bool?> GetAsync(string featureName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SetAsync(string featureName, bool enabled)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

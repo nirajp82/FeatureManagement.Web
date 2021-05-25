@@ -18,11 +18,11 @@ namespace FeatureManagement.Web.Infrastructure
         }
 
         public async Task InvokeAsync(HttpContext context)
-        {            
-            await this._next(context);
+        {
             string message = $"Request URL: {Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request)}";
             context.Response.Headers.Add("RequestdURL", message);
             _logger.LogInformation(message);
+            await this._next(context);
         }
     }
 }
