@@ -31,6 +31,9 @@ namespace FeatureManagement.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                         Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAzureAppConfiguration();
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -73,6 +76,7 @@ namespace FeatureManagement.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseAzureAppConfiguration();
             //app.UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));
             app.UseStaticFiles();
             app.UseRouting();
