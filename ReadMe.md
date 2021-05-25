@@ -8,7 +8,7 @@
 #
 **IDisabledFeaturesHandler**: A handler that is invoked when an MVC action requires a feature and the feature is not enabled.
 #
-**UseMiddlewareForFeature**:  Conditionally creates a branch in the request pipeline that is rejoined to the  main pipeline.
+**UseMiddlewareForFeature**:  Conditionally creates a branch in the request pipeline that is rejoined to the  main pipeline (The feature management library can be used to add application branches and middleware that execute conditionally based on feature state.).
 #
 **FeatureGate**:  An attribute that can be placed on MVC actions to require all or any of a set of features to be enabled. If none of the feature are enabled the registered **Microsoft.FeatureManagement.Mvc.IDisabledFeaturesHandler will be invoked.
 #

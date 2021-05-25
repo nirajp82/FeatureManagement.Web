@@ -55,7 +55,9 @@ namespace FeatureManagement.Web
                  .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler())
                  .AddFeatureFilter<TimeWindowFilter>()
                  .AddFeatureFilter<TargetingFilter>()
-                 .AddFeatureFilter<PercentageFilter>();
+                 .AddFeatureFilter<PercentageFilter>()
+                 .AddFeatureFilter<BetaCookieFilter>()
+                 .AddFeatureFilter<ClaimsFeatureFilter>();
 
             services.AddSingleton<ITargetingContextAccessor, HttpTargetingContextAccessor>();
         }

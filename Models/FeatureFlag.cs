@@ -20,5 +20,6 @@ namespace FeatureManagement.Web.Models
         [PreserveFeatureAcrossRequests]
         TimeElapsed,
         LogUrl,
+        Setting,
     }
 }
