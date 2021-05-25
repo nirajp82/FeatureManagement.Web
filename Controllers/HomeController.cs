@@ -39,6 +39,12 @@ namespace FeatureManagement.Web.Controllers
             return View();
         }
 
+        [FeatureGate(FeatureFlag.AddNewCreditCard)]
+        public IActionResult AddNewCreditCard()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

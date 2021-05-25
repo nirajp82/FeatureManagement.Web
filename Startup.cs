@@ -2,6 +2,8 @@ using FeatureManagement.Web.Infrastructure;
 using FeatureManagement.Web.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +28,12 @@ namespace FeatureManagement.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(
+                        Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddHttpContextAccessor();
 
             services.AddDistributedMemoryCache(); // For demo purposes, not distributed across multiple web servers
@@ -42,10 +50,14 @@ namespace FeatureManagement.Web
             {
                 options.Filters.AddForFeature<TimeElapsedFilter>(nameof(FeatureFlag.TimeElapsed));
             });
+            services.AddRazorPages();
             services.AddFeatureManagement()
                  .UseDisabledFeaturesHandler(new CustomDisabledFeatureHandler())
                  .AddFeatureFilter<TimeWindowFilter>()
+                 .AddFeatureFilter<TargetingFilter>()
                  .AddFeatureFilter<PercentageFilter>();
+
+            services.AddSingleton<ITargetingContextAccessor, HttpTargetingContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +74,7 @@ namespace FeatureManagement.Web
             //app.UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession()
                 .UseMiddlewareForFeature<LogURLMiddleware>(nameof(FeatureFlag.LogUrl));

@@ -14,10 +14,11 @@ namespace FeatureManagement.Web.Models
     public enum FeatureFlag
     {
         Admin,
+        AddNewCreditCard,
         Print,
         PrintPreview,
         [PreserveFeatureAcrossRequests]
         TimeElapsed,
-        LogUrl
+        LogUrl,
     }
 }
